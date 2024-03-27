@@ -240,9 +240,9 @@ rtl8192c_PHY_RF6052SetCckTxPower(
 	if (pHalData->EEPROMRegulatory != 0)
 #endif
 	{
-		dev_info(&Adapter->dvobj->pusbdev->dev,
+		/*dev_info(&Adapter->dvobj->pusbdev->dev,
 			 "TurboScanOff=1 EEPROMRegulatory=%d ExternalPA=%d\n",
-			 pHalData->EEPROMRegulatory, pHalData->ExternalPA);
+			 pHalData->EEPROMRegulatory, pHalData->ExternalPA);*/
 		TurboScanOff = _TRUE;
 	}
 
@@ -330,26 +330,26 @@ rtl8192c_PHY_RF6052SetCckTxPower(
 	// rf-A cck tx power
 	tmpval = TxAGC[RF_PATH_A]&0xff;
 	PHY_SetBBReg(Adapter, rTxAGC_A_CCK1_Mcs32, bMaskByte1, tmpval);
-	dev_info(&Adapter->dvobj->pusbdev->dev,
+	/*dev_info(&Adapter->dvobj->pusbdev->dev,
 		 "CCK PWR 1M (rf-A) = 0x%x (reg 0x%x)\n", tmpval,
-		 rTxAGC_A_CCK1_Mcs32);
+		 rTxAGC_A_CCK1_Mcs32);*/
 	tmpval = TxAGC[RF_PATH_A]>>8;
 	PHY_SetBBReg(Adapter, rTxAGC_B_CCK11_A_CCK2_11, 0xffffff00, tmpval);
-	dev_info(&Adapter->dvobj->pusbdev->dev,
+	/*dev_info(&Adapter->dvobj->pusbdev->dev,
 		 "CCK PWR 2~11M (rf-A) = 0x%x (reg 0x%x)\n", tmpval,
-		 rTxAGC_B_CCK11_A_CCK2_11);
+		 rTxAGC_B_CCK11_A_CCK2_11);*/
 
 	// rf-B cck tx power
 	tmpval = TxAGC[RF_PATH_B]>>24;
 	PHY_SetBBReg(Adapter, rTxAGC_B_CCK11_A_CCK2_11, bMaskByte0, tmpval);
-	dev_info(&Adapter->dvobj->pusbdev->dev,
+	/*dev_info(&Adapter->dvobj->pusbdev->dev,
 		 "CCK PWR 11M (rf-B) = 0x%x (reg 0x%x)\n", tmpval,
-		 rTxAGC_B_CCK11_A_CCK2_11);
+		 rTxAGC_B_CCK11_A_CCK2_11);*/
 	tmpval = TxAGC[RF_PATH_B]&0x00ffffff;
 	PHY_SetBBReg(Adapter, rTxAGC_B_CCK1_55_Mcs32, 0xffffff00, tmpval);
-	dev_info(&Adapter->dvobj->pusbdev->dev,
+	/*dev_info(&Adapter->dvobj->pusbdev->dev,
 		 "CCK PWR 1~5.5M (rf-B) = 0x%x (reg 0x%x)\n", tmpval,
-		 rTxAGC_B_CCK1_55_Mcs32);
+		 rTxAGC_B_CCK1_55_Mcs32);*/
 
 }	/* PHY_RF6052SetCckTxPower */
 
@@ -379,9 +379,9 @@ static void getPowerBase(
 
 		powerBase0 = (powerBase0<<24) | (powerBase0<<16) |(powerBase0<<8) |powerBase0;
 		*(OfdmBase+i) = powerBase0;
-		dev_info(&Adapter->dvobj->pusbdev->dev,
+		/*dev_info(&Adapter->dvobj->pusbdev->dev,
 			 " [OFDM power base index rf(%c) = 0x%x]\n",
-			 ((i == 0) ? 'A' : 'B'), *(OfdmBase + i));
+			 ((i == 0) ? 'A' : 'B'), *(OfdmBase + i));*/
 	}
 
 	for(i=0; i<2; i++)
@@ -395,9 +395,9 @@ static void getPowerBase(
 		powerBase1 = powerlevel[i];
 		powerBase1 = (powerBase1<<24) | (powerBase1<<16) |(powerBase1<<8) |powerBase1;
 		*(MCSBase+i) = powerBase1;
-		dev_info(&Adapter->dvobj->pusbdev->dev,
+		/*dev_info(&Adapter->dvobj->pusbdev->dev,
 			 " [MCS power base index rf(%c) = 0x%x]\n",
-			 ((i == 0) ? 'A' : 'B'), *(MCSBase + i));
+			 ((i == 0) ? 'A' : 'B'), *(MCSBase + i));*/
 	}
 }
 
@@ -425,19 +425,19 @@ static void getTxPowerWriteValByRegulatory(
 			case 0:	// Realtek better performance
 					// increase power diff defined by Realtek for large power
 				chnlGroup = 0;
-				dev_info(
+				/*dev_info(
 					&Adapter->dvobj->pusbdev->dev,
 					"MCSTxPowerLevelOriginalOffset[%d][%d] = 0x%x\n",
 					chnlGroup, index,
 					pHalData->MCSTxPowerLevelOriginalOffset
 						[chnlGroup]
-						[index + (rf ? 8 : 0)]);
+						[index + (rf ? 8 : 0)]);*/
 				writeVal = pHalData->MCSTxPowerLevelOriginalOffset[chnlGroup][index+(rf?8:0)] + 
 					((index<2)?powerBase0[rf]:powerBase1[rf]);
-				dev_info(
+				/*dev_info(
 					&Adapter->dvobj->pusbdev->dev,
 					"RTK better performance, writeVal(%c) = 0x%x\n",
-					((rf == 0) ? 'A' : 'B'), writeVal);
+					((rf == 0) ? 'A' : 'B'), writeVal);*/
 				break;
 			case 1:	// Realtek regulatory
 					// increase power diff defined by Realtek for regulatory
@@ -458,55 +458,55 @@ static void getTxPowerWriteValByRegulatory(
 						else
 							chnlGroup+=4;
 					}
-					dev_info(
+					/*dev_info(
 						&Adapter->dvobj->pusbdev->dev,
 						"MCSTxPowerLevelOriginalOffset[%d][%d] = 0x%x\n",
 						chnlGroup, index,
 						pHalData->MCSTxPowerLevelOriginalOffset
 							[chnlGroup]
-							[index + (rf ? 8 : 0)]);
+							[index + (rf ? 8 : 0)]);*/
 					writeVal = pHalData->MCSTxPowerLevelOriginalOffset[chnlGroup][index+(rf?8:0)] + 
 							((index<2)?powerBase0[rf]:powerBase1[rf]);
-					dev_info(
+					/*dev_info(
 						&Adapter->dvobj->pusbdev->dev,
 						"Realtek regulatory, 20MHz, writeVal(%c) = 0x%x\n",
 						((rf == 0) ? 'A' : 'B'),
-						writeVal);
+						writeVal);*/
 				}
 				break;
 			case 2:	// Better regulatory
 					// don't increase any power diff
 				writeVal = ((index<2)?powerBase0[rf]:powerBase1[rf]);
-				dev_info(
+				/*dev_info(
 					&Adapter->dvobj->pusbdev->dev,
 					"Better regulatory, writeVal(%c) = 0x%x\n",
-					((rf == 0) ? 'A' : 'B'), writeVal);
+					((rf == 0) ? 'A' : 'B'), writeVal);*/
 				break;
 			case 3:	// Customer defined power diff.
 					// increase power diff defined by customer.
 				chnlGroup = 0;
-				dev_info(
+				/*dev_info(
 					&Adapter->dvobj->pusbdev->dev,
 					"MCSTxPowerLevelOriginalOffset[%d][%d] = 0x%x\n",
 					chnlGroup, index,
 					pHalData->MCSTxPowerLevelOriginalOffset
 						[chnlGroup]
-						[index + (rf ? 8 : 0)]);
+						[index + (rf ? 8 : 0)]);*/
 
 				if (pHalData->CurrentChannelBW == HT_CHANNEL_WIDTH_40)
 				{
-					dev_info(
+					/*dev_info(
 						&Adapter->dvobj->pusbdev->dev,
 						"customer's limit, 40MHz rf(%c) = 0x%x\n",
 						((rf == 0) ? 'A' : 'B'),
 						pHalData->PwrGroupHT40[rf]
 								      [Channel -
-								       1]);
+								       1]);*/
 				}
 				else
 				{
-					dev_info(&Adapter->dvobj->pusbdev->dev, "customer's limit, 20MHz rf(%c) = 0x%x\n",
-						((rf==0)?'A':'B'), pHalData->PwrGroupHT20[rf][Channel-1]);
+					/*dev_info(&Adapter->dvobj->pusbdev->dev, "customer's limit, 20MHz rf(%c) = 0x%x\n",
+						((rf==0)?'A':'B'), pHalData->PwrGroupHT20[rf][Channel-1]);*/
 				}
 				for (i=0; i<4; i++)
 				{
@@ -524,15 +524,15 @@ static void getTxPowerWriteValByRegulatory(
 				}
 				customer_limit = (pwr_diff_limit[3]<<24) | (pwr_diff_limit[2]<<16) |
 								(pwr_diff_limit[1]<<8) | (pwr_diff_limit[0]);
-				dev_info(&Adapter->dvobj->pusbdev->dev,
+				/*dev_info(&Adapter->dvobj->pusbdev->dev,
 					 "Customer's limit rf(%c) = 0x%x\n",
 					 ((rf == 0) ? 'A' : 'B'),
-					 customer_limit);
+					 customer_limit);*/
 
 				writeVal = customer_limit + ((index<2)?powerBase0[rf]:powerBase1[rf]);
-				dev_info(&Adapter->dvobj->pusbdev->dev,
+				/*dev_info(&Adapter->dvobj->pusbdev->dev,
 					 "Customer, writeVal rf(%c)= 0x%x\n",
-					 ((rf == 0) ? 'A' : 'B'), writeVal);
+					 ((rf == 0) ? 'A' : 'B'), writeVal);*/
 				break;
 			default:
 				chnlGroup = 0;
@@ -556,14 +556,14 @@ static void getTxPowerWriteValByRegulatory(
 		// This mechanism is only applied when Driver-Highpower-Mechanism is OFF.
 		if(pdmpriv->DynamicTxHighPowerLvl == TxHighPwrLevel_BT1)
 		{
-			dev_info(&Adapter->dvobj->pusbdev->dev,
-				 "Tx Power (-6)\n");
+			/*dev_info(&Adapter->dvobj->pusbdev->dev,
+				 "Tx Power (-6)\n");*/
 			writeVal = writeVal - 0x06060606;
 		}
 		else if(pdmpriv->DynamicTxHighPowerLvl == TxHighPwrLevel_BT2)
 		{
-			dev_info(&Adapter->dvobj->pusbdev->dev,
-				 "Tx Power (-0)\n");
+			/*dev_info(&Adapter->dvobj->pusbdev->dev,
+				 "Tx Power (-0)\n");*/
 			writeVal = writeVal;
 		}
 		*(pOutWriteVal+rf) = writeVal;
@@ -604,8 +604,8 @@ static void writeOFDMPowerReg(
 			RegOffset = RegOffset_B[index];
 		
 		PHY_SetBBReg(Adapter, RegOffset, bMaskDWord, writeVal);
-		dev_info(&Adapter->dvobj->pusbdev->dev, "%s: Set 0x%x = %08x\n",
-			 __func__, RegOffset, writeVal);
+		/*dev_info(&Adapter->dvobj->pusbdev->dev, "%s: Set 0x%x = %08x\n",
+			 __func__, RegOffset, writeVal);*/
 
 		// 201005115 Joseph: Set Tx Power diff for Tx power training mechanism.
 		if(((pHalData->rf_type == RF_2T2R) && 

@@ -506,8 +506,8 @@ rtl8192c_PHY_QueryRFReg(
 
 	
 	Original_Value = phy_RFSerialRead(Adapter, eRFPath, RegAddr);
-	dev_info(&Adapter->dvobj->pusbdev->dev, "%s(%02x, %u) = 0x%x\n",
-		 __func__, RegAddr, eRFPath, Original_Value);
+	/*dev_info(&Adapter->dvobj->pusbdev->dev, "%s(%02x, %u) = 0x%x\n",
+		 __func__, RegAddr, eRFPath, Original_Value);*/
 
 	BitShift =  phy_CalculateBitShift(BitMask);
 	Readback_Value = (Original_Value & BitMask) >> BitShift;	
@@ -584,8 +584,8 @@ rtl8192c_PHY_SetRFReg(
 		Data = ((Original_Value & (~BitMask)) | (Data<< BitShift));
 	}
 
-	dev_info(&Adapter->dvobj->pusbdev->dev, "%s(%02x, %u) = 0x%x\n",
-		 __func__, RegAddr, eRFPath, Data);
+	/*dev_info(&Adapter->dvobj->pusbdev->dev, "%s(%02x, %u) = 0x%x\n",
+		 __func__, RegAddr, eRFPath, Data);*/
 	phy_RFSerialWrite(Adapter, eRFPath, RegAddr, Data);
 	
 
@@ -2559,11 +2559,11 @@ PHY_SetTxPowerLevel8192C(
 		return;
 
 	getTxPowerIndex(Adapter, channel, &cckPowerLevel[0], &ofdmPowerLevel[0]);
-	dev_info(
+	/*dev_info(
 		&Adapter->dvobj->pusbdev->dev,
 		"Channel-%d, cckPowerLevel (A / B) = 0x%x / 0x%x,   ofdmPowerLevel (A / B) = 0x%x / 0x%x\n",
 		channel, cckPowerLevel[0], cckPowerLevel[1], ofdmPowerLevel[0],
-		ofdmPowerLevel[1]);
+		ofdmPowerLevel[1]);*/
 
 	ccxPowerIndexCheck(Adapter, channel, &cckPowerLevel[0], &ofdmPowerLevel[0]);
 
@@ -2623,10 +2623,10 @@ PHY_UpdateTxPowerDbm8192C(
 	else
 		OfdmTxPwrIdx = 0;
 
-	dev_info(
+	/*dev_info(
 		&Adapter->dvobj->pusbdev->dev,
 		"PHY_UpdateTxPowerDbm8192S(): %d dBm , CckTxPwrIdx = 0x%x, OfdmTxPwrIdx = 0x%x\n",
-		powerInDbm, CckTxPwrIdx, OfdmTxPwrIdx);
+		powerInDbm, CckTxPwrIdx, OfdmTxPwrIdx);*/
 
 	for(idx = 0; idx < 14; idx++)
 	{
